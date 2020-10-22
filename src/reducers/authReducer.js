@@ -1,0 +1,31 @@
+const INITIAL_STATE = { 
+    authError: null,
+    //isSignedIn: null,
+    //email: '',
+    //password: ''
+}
+
+const authReducer = (state= INITIAL_STATE, action) => {
+    switch(action.type){
+        case 'LOGIN_ERROR':
+            console.log('login error');
+            return {
+                ...state,
+                authError: 'Login Failed'
+            }
+        case 'LOGIN_SUCCESS':
+            console.log('login success');
+            return {
+                ...state,
+                authError: null
+            }
+        case 'SIGNOUT_SUCCESS':
+            console.log('signout success');
+            return state;
+        default:
+            return state;
+    }
+}
+
+export default authReducer;
+
