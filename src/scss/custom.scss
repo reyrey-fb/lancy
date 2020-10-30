@@ -1,0 +1,31 @@
+//Boostrap and its default variables
+@import "../../node_modules/bootstrap/scss/bootstrap";
+
+// Lancy custom theme - variable overrides
+$theme-colors: (
+    "primary": #1E5EFF ,
+    "secondary": #D7DBEC,
+    "light": #F5F6FA,
+    "dark": #131523,
+    "danger": #F0142F,
+    "success": #06A561
+);
+
+$theme-colors: map-remove($theme-colors, "info", "warning");
+
+$grays: (
+    "100": $light,
+    "200": #E6E9F4,
+    "300": #D7DBEC,
+    "400": #D9E1EC,
+    "500": #A1A7C4,
+    "600": #7E84A3,
+    "700": #5A607F,
+    "800": #333752,
+    "900": $dark
+  );
+
+  $border-color: $gray-400;
+
+
+

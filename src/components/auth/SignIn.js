@@ -3,29 +3,33 @@ import { Link } from "react-router-dom";
 import { Field, reduxForm } from 'redux-form';
 import { connect} from 'react-redux';
 import { signIn }  from '../../actions/authActions';
+import "../../scss/main.css";
 
 class SignIn extends Component {
-
-  renderError = ( { touched, error }) => {
-      if (touched && error) {
-          return (
-              <div>
-                  {error}
-              </div>
-          )
-      }
-  }
+  renderError = ({ touched, error }) => {
+    if (touched && error) {
+      return <div className="text-danger">{error}</div>;
+    }
+  };
 
   renderInput = ({ input, label, meta }) => {
     return (
-      <div className="input-field">
-        <label className="active">{label}</label>
-        <input {...input} autoComplete="off" />
+      <React.Fragment>
+        <label htmlFor={`input${label}`} className="sr-only">
+          {label}
+        </label>
+        <input
+          {...input}
+          className="form-control mb-2"
+          placeholder={label}
+          autoComplete="off"
+          required
+        />
         <span className="helper-text">{this.renderError(meta)}</span>
-      </div>
+      </React.Fragment>
     );
-  }
-  
+  };
+
   onSubmit = (formValues) => {
     //call signIn action here and pass it the formValues (same as this.state, if not using Redux Form)
     this.props.signIn(formValues);
@@ -34,21 +38,43 @@ class SignIn extends Component {
   render() {
     const { authError } = this.props;
     return (
-      <div className="container">
-        <form className="white" onSubmit={this.props.handleSubmit(this.onSubmit)}>
-          <h5 className="grey-text text-darken-3">Sign In</h5>
-            <Field name="email" component={this.renderInput} label="Email" />
-            <Field name="password" component={this.renderInput} label="Password" />
-            <button className="btn blue lighten-1 z-depth-0">Log In</button>
-            <p className="grey-text">
-              Don't have an account?
-              <Link to="/signup"> Sign Up</Link>
-            </p>
+      <div className="container-fluid bg-light min-vh-100">
+        <div className="row d-flex justify-content-center min-vh-100 align-items-center">
+          <div className="col-sm"></div>
+          <div className="text-center col-sm px-5 py-2 bg-white card py-5">
+            <form
+              className="form-signin"
+              onSubmit={this.props.handleSubmit(this.onSubmit)}
+            >
+              <img
+                className="mb-4"
+                src={require("../../assets/images/logo_text.svg")}
+                alt="Lancy"
+                width="140"
+                height="80"
+              />
+              <h1 className="h3 mb-3 font-weight-normal">Log In</h1>
+              <p className="text-muted">
+                Don't have an account?
+                <Link to="/signup"> Sign Up</Link>
+              </p>
+              <Field name="email" component={this.renderInput} label="Email" />
+              <Field
+                name="password"
+                component={this.renderInput}
+                label="Password"
+              />
+              <button className="btn btn-lg btn-primary btn-block mb-4">
+                Log In
+              </button>
+
               <Link to="/signup">Forgot Password?</Link>
-            <div className="red-text center">
-                { authError ? <p>{authError}</p> : null }
-            </div>
-        </form>
+
+              <div>{authError ? <p>{authError}</p> : null}</div>
+            </form>
+          </div>
+          <div className="col-sm"></div>
+        </div>
       </div>
     );
   }
