@@ -2,13 +2,16 @@ import React, { Component } from 'react';
 import { Router, Route, Switch } from 'react-router-dom';
 
 
-import JobList from './jobs/JobList';
+import AuthStatus from './auth/AuthStatus';
 import SignIn from './auth/SignIn';
 import SignUp from './auth/SignUp';
-import Account from './userSettings/Account'
+import Account from './userSettings/Account';
+import Billing from './userSettings/Billing';
+import Profile from './userSettings/Profile';
+import SavedJobsList from "./main/SavedJobsList";
 import history from '../history';
 
-import NavBar from './nav/NavBar';
+
 
 class App extends Component {
     render() {
@@ -16,11 +19,13 @@ class App extends Component {
           <React.Fragment>
             <Router history={history}>
               <Switch>
-                <Route exact path="/" component={JobList} />
+                <Route exact path="/" component={AuthStatus} />
                 <Route path="/signin" component={SignIn} />
                 <Route path="/signup" component={SignUp} />
-                <Route path="/account" component={Account} />
-                <Route path="/nav" component={NavBar} />
+                <Route path="/savedjobs" component={SavedJobsList} />
+                <Route exact path="/account" component={Account} />
+                <Route path="/account/billing" component={Billing} />
+                <Route path="/account/profile" component={Profile} />
               </Switch>
             </Router>
           </React.Fragment>

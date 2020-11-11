@@ -1,23 +1,24 @@
 import React, {Component} from 'react';
+import { connect } from "react-redux";
 import { Field, reduxForm } from 'redux-form';
-import { Link } from "react-router-dom";
-//import { connect} from 'react-redux';
-//import { signUp }  from '../../actions';
+import { Link, Redirect } from "react-router-dom";
+
+import { signUp } from "../../actions/authActions";
 import "../../scss/main.css";
 
-
 class SignUp extends Component {
-  renderError = ({ touched, error }) => {
-    if (touched && error) {
-      return <div>{error}</div>;
-    }
-  };
 
-  renderInput = ({ input, label, meta }) => {
+  renderError = ({ touched, error }) => {
+      if (touched && error) {
+        return <div className="text-muted mb-2">{error}</div>
+      }
+  }  
+  
+  renderInput = ({ input, meta, label }) => {
       return (
         <React.Fragment>
-          <label htmlFor={`input${label}`} className="sr-only">
-            {label}
+          <label htmlFor={`input${input.name}`} className="sr-only">
+            {input.name}
           </label>
           <input
             {...input}
@@ -26,20 +27,21 @@ class SignUp extends Component {
             autoComplete="off"
             required
           />
-          <span className="helper-text">{this.renderError(meta)}</span>
+        <span>{this.renderError(meta)}</span>
         </React.Fragment>
       );
   }
 
   onSubmit = (formValues) => {
-    //LINK REGISTRATION/AUTHENTICATION HERE THROUGH ACTION CREATOR PROP
-    //this.props.signUp(formValues);
-    console.log(formValues.name);
+    this.props.signUp(formValues);
   };
 
   render() {
-    //console.log(this.props);
-    const { authError } = this.props;
+    console.log(this.props)
+    const { authError, auth } = this.props;
+    if (auth.uid) { 
+        return <Redirect to="/" />   
+    }
     return (
       <div className="container-fluid bg-light min-vh-100">
         <div className="row d-flex justify-content-center min-vh-100 align-items-center">
@@ -48,6 +50,7 @@ class SignUp extends Component {
             <form
               className="form-signin"
               onSubmit={this.props.handleSubmit(this.onSubmit)}
+              noValidate
             >
               <img
                 className="mb-4"
@@ -57,7 +60,16 @@ class SignUp extends Component {
                 height="80"
               />
               <h1 className="h3 mb-3 font-weight-normal">Sign Up</h1>
-              <Field name="name" component={this.renderInput} label="Name" />
+              <Field
+                name="firstName"
+                component={this.renderInput}
+                label="First Name"
+              />
+              <Field
+                name="lastName"
+                component={this.renderInput}
+                label="Last Name"
+              />
               <Field name="email" component={this.renderInput} label="Email" />
               <Field
                 name="password"
@@ -70,7 +82,9 @@ class SignUp extends Component {
 
               <Link to="/signin">I already have an account</Link>
 
-              <div>{authError ? <p>{authError}</p> : null}</div>
+              <div className="text-muted mt-2">
+                {authError ? <p>{authError}</p> : null}
+              </div>
             </form>
           </div>
           <div className="col-sm"></div>
@@ -80,25 +94,43 @@ class SignUp extends Component {
   }
 }
 
-const validate = formValues => {
-    const errors = {};
+const validate = (formValues) => {
+  const errors = {};
 
-    if (!formValues.name) {
-        errors.name = "You must enter a name"
+  if (!formValues.firstName) {
+      errors.firstName = "You must enter a first name.";
+  }
+
+  if (!formValues.lastName) {
+    errors.lastName = "You must enter a last name.";
+  }
+  if (!formValues.email) {
+    errors.email = "You must enter an email.";
+  }
+
+  if (!formValues.password) {
+    errors.password = "You must enter a password.";
+  }
+
+  return errors;
+};
+
+const mapStateToProps = state => {
+    return {
+        authError: state.auth.authError,
+        auth: state.firebase.auth,
     }
-
-    if (!formValues.email) {
-        errors.email = "You must enter an email";
-    }
-
-    if (!formValues.password) {
-        errors.password = "You must enter a password";
-    }
-
-    return errors;
 }
 
-export default reduxForm({
+const mapDispatchToProps = (dispatch) => {
+    return {
+        signUp: (newUser) => dispatch(signUp(newUser))
+    }
+}
+
+const formWrapped = reduxForm({
     form: "SignUp",
     validate
 }) (SignUp);
+
+export default connect(mapStateToProps, mapDispatchToProps)(formWrapped);

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { Field, reduxForm } from 'redux-form';
 import { connect} from 'react-redux';
 import { signIn }  from '../../actions/authActions';
@@ -8,7 +8,7 @@ import "../../scss/main.css";
 class SignIn extends Component {
   renderError = ({ touched, error }) => {
     if (touched && error) {
-      return <div className="text-danger">{error}</div>;
+      return <div className="text-muted mb-2">{error}</div>;
     }
   };
 
@@ -22,6 +22,7 @@ class SignIn extends Component {
           {...input}
           className="form-control mb-2"
           placeholder={label}
+          type={input.name}
           autoComplete="off"
           required
         />
@@ -36,7 +37,10 @@ class SignIn extends Component {
   };
 
   render() {
-    const { authError } = this.props;
+    const { authError, auth } = this.props;
+    if (auth.uid) {
+        return <Redirect to="/" />
+    }
     return (
       <div className="container-fluid bg-light min-vh-100">
         <div className="row d-flex justify-content-center min-vh-100 align-items-center">
@@ -45,6 +49,7 @@ class SignIn extends Component {
             <form
               className="form-signin"
               onSubmit={this.props.handleSubmit(this.onSubmit)}
+              noValidate
             >
               <img
                 className="mb-4"
@@ -70,7 +75,9 @@ class SignIn extends Component {
 
               <Link to="/signup">Forgot Password?</Link>
 
-              <div>{authError ? <p>{authError}</p> : null}</div>
+              <div className="text-muted mt-2">
+                {authError ? <p>{authError}</p> : null}
+              </div>
             </form>
           </div>
           <div className="col-sm"></div>
@@ -84,20 +91,20 @@ const validate = formValues => {
     const errors = {};
 
     if (!formValues.email) {
-        errors.email = "You must enter an email";
+        errors.email = "You must enter an email.";
     }
 
     if (!formValues.password) {
-        errors.password = "You must enter a password";
+        errors.password = "You must enter a password.";
     }
 
     return errors;
 }
 
 const mapStateToProps = (state) => {
-    console.log(state);
     return {
-        authError: state.auth.authError
+        authError: state.auth.authError,
+        auth: state.firebase.auth
     }
 }
 

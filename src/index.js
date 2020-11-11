@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
+import { Provider, useSelector } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import reduxThunk from 'redux-thunk';
 import firebase from 'firebase/app';
-import { ReactReduxFirebaseProvider, getFirebase } from 'react-redux-firebase';
+import { ReactReduxFirebaseProvider, getFirebase, isLoaded } from 'react-redux-firebase';
 import { reduxFirestore, getFirestore, createFirestoreInstance } from "redux-firestore";
 
 import App from "./components/App";
@@ -24,17 +24,33 @@ const store = createStore(
 );
 
 //React-Redux-Firebase Config
+//tell firebase to connect firestore's user collection to the profile prop in firebase
+const rrfConfig = {
+    userProfile: 'users',
+    useFirestoreForProfile: true 
+}
+
+//React-Redux-Firebase Props
 const rrfProps = {
   firebase,
-  config: fbConfig,
+  config: rrfConfig,
   dispatch: store.dispatch,
   createFirestoreInstance,
 };
 
+//Component (waits to render until firebase auth has loaded)
+const AuthIsLoaded =({ children }) => {
+    const auth = useSelector(state => state.firebase.auth)
+    if (!isLoaded(auth)) { return null};
+    return children;
+}
+
 ReactDOM.render(
   <Provider store={store}>
     <ReactReduxFirebaseProvider {...rrfProps}>
-      <App />
+      <AuthIsLoaded>
+        <App />
+      </AuthIsLoaded>
     </ReactReduxFirebaseProvider>
   </Provider>,
   document.querySelector("#root")

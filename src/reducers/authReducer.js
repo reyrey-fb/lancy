@@ -1,8 +1,5 @@
 const INITIAL_STATE = { 
-    authError: null,
-    //isSignedIn: null,
-    //email: '',
-    //password: ''
+    authError: null
 }
 
 const authReducer = (state= INITIAL_STATE, action) => {
@@ -22,6 +19,18 @@ const authReducer = (state= INITIAL_STATE, action) => {
         case 'SIGNOUT_SUCCESS':
             console.log('signout success');
             return state;
+        case 'SIGNUP_SUCCESS':
+            console.log('signup success');
+            return {
+                ...state,
+                authError: null
+            }
+        case 'SIGNUP_ERROR':
+            console.log('signup error');
+            return {
+                ...state,
+                authError: action.err.message
+            }
         default:
             return state;
     }

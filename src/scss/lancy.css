@@ -1,0 +1,28 @@
+.search:before {
+    position: absolute;
+    background: url('../assets/icons/search.svg') center / contain no-repeat;
+    content: "";
+    left: 20px;
+    right: 5px;
+    top: 18px;
+    bottom: 0;
+    width: 20px;
+}
+
+.btn {
+  color: #A1A7C4; 
+}
+
+.btn:focus, .btn.focus {
+  outline: 0;
+  -webkit-box-shadow: 0 0 0 0.1rem #717598;
+          box-shadow: 0 0 0 0.1rem #717598;
+}
+
+.btn:hover {
+  color: #717598;
+}
+
+.form-control:focus {
+  box-shadow: 0 0 0 0.1rem #717598;
+}

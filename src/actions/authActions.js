@@ -39,15 +39,35 @@ export const signOut = () => {
         dispatch({ type: "SIGNOUT_SUCCESS" });
         //navigate programmatically back to Sign In screen
         history.push("/signin");
-      })
-      .catch((err) => {
-        //if error thrown, dispatches error action
-        dispatch({ type: "SIGNOUT_ERROR", err });
-    });
+      });
   }
 };
 
-
+//Sign Up Action Creator Using Firebase Auth
+export const signUp = (newUser) => {
+    return (dispatch, getState, {getFirebase, getFirestore}) => {
+        //initialize firebase instance
+        const firebase = getFirebase();
+        const firestore = getFirestore();
+        //make async call to firebase auth SDK
+        firebase.auth().createUserWithEmailAndPassword(
+            newUser.email,
+            newUser.password
+        ).then((response) => {
+            //create firestore collection 'users' with the signup data
+            //sync the uid from firebase auth with firestore users collection (with props firstName etc)
+            return firestore.collection('users').doc(response.user.uid).set({
+                firstName: newUser.firstName,
+                lastName: newUser.lastName,
+                initials: newUser.firstName[0] + newUser.lastName[0]
+            })
+        }).then(() => {
+            dispatch({ type: 'SIGNUP_SUCCESS' })
+        }).catch( err => {
+            dispatch( { type: 'SIGNUP_ERROR', err})
+        })
+    }
+}
 
 
 
