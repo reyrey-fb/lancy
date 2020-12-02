@@ -10,7 +10,7 @@ class NavBar extends Component {
         const { profile } = this.props;
         console.log(profile);
         return (
-          <div className="container m-0 p-0">
+          <div className="sidebar-sticky">
             <ul className="navbar flex-column bg-light min-vh-100 d-inline-flex mb-0">
               <li className="nav-item row align-items-start">
                 <Link className="nav-link" to="/">

@@ -10,6 +10,7 @@ import Billing from './userSettings/Billing';
 import Profile from './userSettings/Profile';
 import SavedJobsList from "./main/SavedJobsList";
 import history from '../history';
+import Slider from './main/Slider';
 
 
 
@@ -26,6 +27,7 @@ class App extends Component {
                 <Route exact path="/account" component={Account} />
                 <Route path="/account/billing" component={Billing} />
                 <Route path="/account/profile" component={Profile} />
+                <Route path="/slider" component={Slider} />
               </Switch>
             </Router>
           </React.Fragment>
