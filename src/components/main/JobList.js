@@ -29,18 +29,17 @@ const JobList = (props) => {
   const hourlySlider = (
     <div className="">
       <Slider
+        name="hourlySlider"
         label="Hourly"
-        slots="120"
-        step="5"
-        start="35"
-        end="55"
-      />
+         />
     </div>
   );
 
     const priceSlider = (
       <div className="">
-        <Slider label="Fixed Price" slots="120" step="5" start="35" end="55" />
+        <Slider 
+          name="priceSlider"
+          label="Fixed Price" />
       </div>
     );
 

@@ -1,0 +1,9 @@
+export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
+export const LOGIN_ERROR = "LOGIN_ERROR";
+export const SIGNOUT_SUCCESS = "SIGNOUT_SUCCESS";
+export const SIGNIN_SUCCESS = "SIGNUP_SUCCESS";
+export const SIGNUP_SUCCESS = "SIGNUP_SUCCESS";
+export const SIGNUP_ERROR = "SIGNUP_ERROR";
+export const SEARCH_SUBMIT = "SEARCH_SUBMIT";
+export const MIN_SELECTED = "MIN_SELECTED";
+export const MAX_SELECTED = "MAX_SELECTED";

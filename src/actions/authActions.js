@@ -1,3 +1,4 @@
+import { LOGIN_SUCCESS, LOGIN_ERROR, SIGNOUT_SUCCESS, SIGNUP_SUCCESS, SIGNUP_ERROR} from "./types";
 import history from '../history';
 
 //Email/Password Sign In Action Creator Using Firebase Auth
@@ -14,13 +15,13 @@ export const signIn = (credentials) => {
         //call returns a promise, which if successful, dispatches success action
       )
       .then(() => {
-        dispatch({ type: "LOGIN_SUCCESS" });
+        dispatch({ type: LOGIN_SUCCESS });
         //navigate programmatically back to Sign In screen
         history.push("/");
       })
       //if error thrown, dispatches error action
       .catch((err) => {
-        dispatch({ type: "LOGIN_ERROR", err });
+        dispatch({ type: LOGIN_ERROR, err });
       });
   }  
 };
@@ -36,7 +37,7 @@ export const signOut = () => {
       .signOut()
     //call returns a promise, which if successful, dispatches success action
       .then(() => {
-        dispatch({ type: "SIGNOUT_SUCCESS" });
+        dispatch({ type: SIGNOUT_SUCCESS });
         //navigate programmatically back to Sign In screen
         history.push("/signin");
       });
@@ -62,9 +63,9 @@ export const signUp = (newUser) => {
                 initials: newUser.firstName[0] + newUser.lastName[0]
             })
         }).then(() => {
-            dispatch({ type: 'SIGNUP_SUCCESS' })
+            dispatch({ type: SIGNUP_SUCCESS })
         }).catch( err => {
-            dispatch( { type: 'SIGNUP_ERROR', err})
+            dispatch( { type: SIGNUP_ERROR, err})
         })
     }
 }

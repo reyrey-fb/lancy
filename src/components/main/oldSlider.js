@@ -1,15 +1,21 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+//slider using only React setState, not integrated with Redux Store
+
+import React, { Component } from "react";
+import { connect } from "react-redux";
 import { selectMinValue, selectMaxValue } from "../../actions/sliderActions";
 
 import "../../scss/slider.css";
 
 class Slider extends Component {
+  //TODO: convert state to redux store
+  state = {
+    slots: 100,
+    step: 5,
+    start: 35,
+    end: 55,
+    labelMode: "mid",
+  };
 
-componentDidMount() {
-    console.log(this.props);
-}
-    
   //Drag and drop event handlers
   //Prevent continuous firings of event handler while object is being dragged
   onDragOver = (e) => {
@@ -28,15 +34,30 @@ componentDidMount() {
   onDrop = (e) => {
     let source = this.sliderType; //min or max
     let slot = Number(e.target.dataset.slot); //sets data-slot=number
+    console.log("slot: ", slot);
 
     if (isNaN(slot)) return;
 
     if (source === "min") {
-      if (slot >= this.props.end) return;
-      this.props.selectMinValue(slot); //call action creator
+      if (slot >= this.state.end) return;
+      this.setState(
+        {
+          start: slot,
+        },
+        () => {
+          console.log(this.state);
+        }
+      );
     } else if (source === "max") {
-      if (slot <= this.props.start) return;
-      this.props.selectMaxValue(slot); //call action creator
+      if (slot <= this.state.start) return;
+      this.setState(
+        {
+          end: slot,
+        },
+        () => {
+          console.log(this.state);
+        }
+      );
     }
     this.sliderType = null; //reset min/max sliderType
   };
@@ -75,11 +96,6 @@ componentDidMount() {
     let minThumb = null;
     let maxThumb = null;
 
-    //format thousands into 'k': $1,200 -> $1.2k
-    const kFormatter = (num) => {
-      return "$" + Math.sign(num) * (Math.abs(num) / 1000).toFixed(1) + "k"
-    };
-
     //currency format converter
     const currencyFormat = new Intl.NumberFormat("en-US", {
       style: "currency",
@@ -88,15 +104,12 @@ componentDidMount() {
     });
 
     //for loop through the slider scale
-    for (let i = 0; i <= this.props.slots; i += this.props.step) {
+    for (let i = 0; i <= this.state.slots; i += this.state.step) {
       //find the user-selected start-end tooltip label value
       let currentLabel = "";
 
-      if (i === this.props.start || i === this.props.end) {
-        currentLabel =
-          Math.abs(i) > 999
-            ? kFormatter(i) //format thousands in to $1.2K
-            : currencyFormat.format(i); //format under thousands into normal currency: $55
+      if (i === this.state.start || i === this.state.end) {
+        currentLabel = currencyFormat.format(i);
       }
 
       currentScale.push(
@@ -106,9 +119,9 @@ componentDidMount() {
       );
 
       //sync the Slider thumb with the start/end label value
-      if (i === this.props.start) {
+      if (i === this.state.start) {
         minThumb = <this.MinSlider />;
-      } else if (i === this.props.end) {
+      } else if (i === this.state.end) {
         maxThumb = <this.MaxSlider />;
       } else {
         minThumb = null;
@@ -118,7 +131,7 @@ componentDidMount() {
       //JSX for the slider itself
       let lineClass = "line";
 
-      if (i > this.props.start && i < this.props.end) {
+      if (i > this.state.start && i < this.state.end) {
         lineClass += " line-selected";
       }
 
@@ -138,7 +151,7 @@ componentDidMount() {
         </div>
       );
     }
-    console.log(this.props);
+
     return (
       <div className="container p-0">
         <div className="row">
@@ -153,27 +166,22 @@ componentDidMount() {
       </div>
     );
   }
-  
 }
 
-const mapStateToProps = (state, ownProps) => {
-    //creating local instances of the slider component state in redux store
-    let name = ownProps.name;
-    let localState = state[name];
-    return {
-      name: name,
-      slots: localState.slots,
-      step: localState.step,
-      start: localState.start,
-      end: localState.end
-    };
-}
-
-const mapDispatchToProps = (dispatch, ownProps) => {
+const mapStateToProps = (state) => {
   return {
-    selectMinValue: value => dispatch(selectMinValue(ownProps.name, value)),
-    selectMaxValue: value => dispatch(selectMaxValue(ownProps.name, value))
+    slots: state.slots,
+    step: state.step,
+    start: state.start,
+    end: state.end,
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps) (Slider);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    selectMinValue: (value) => dispatch(selectMinValue(value)),
+    selectMaxValue: (value) => dispatch(selectMaxValue(value)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Slider);
