@@ -1,11 +1,13 @@
+import { SEARCH_SUBMIT } from "../actions/types";
+
 const INITIAL_STATE = {
     value: ''
 }
 
-const searchReducer = (state=INITIAL_STATE, action) => {
+const searchReducer = name => (state=INITIAL_STATE, action) => {
     switch(action.type) {
-        case 'SEARCH_SUBMIT':
-            console.log('search submitted!');
+        case `${name}/${SEARCH_SUBMIT}`:
+            console.log(`search submitted from the ${name}!`);
             return {
                 ...state,
                 value: action.value.search

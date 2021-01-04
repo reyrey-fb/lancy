@@ -1,30 +1,21 @@
 import React from 'react';
-import { connect } from 'react-redux';
 
 import NavBar from '../nav/NavBar';
 import SearchBar from './SearchBar';
 import DropDown from './DropDown';
+import { items } from "./DropDownItems";
 import Slider from './Slider';
+import JobItems from './JobItems';
 
 import "../../scss/main.css";
 
-
 const JobList = (props) => {
 
+  //search bar event handler
   const handleSearchSubmit = (term) => {
     //call API action creator here
     console.log(term);
   }
-
-  //render checkbox items for dropdowns
-  const checkbox = (
-    <div className="form-check">
-      <input className="form-check-input" type="checkbox" value="" id="defaultCheck1"/>
-      <label className="form-check-label" htmlFor="defaultCheck1">
-      Under a week
-      </label>
-    </div>
-  );
 
   const hourlySlider = (
     <div className="">
@@ -54,16 +45,17 @@ const JobList = (props) => {
             <div className="col-md-9 col-6">
               <SearchBar
                 id="search"
+                name="mainSearch"
                 onSubmit={handleSearchSubmit(props.searchTerm)}
               />
             </div>
             <div className="col-md-3 col-6">
               <DropDown
                 id="sortBy"
+                name="sort"
                 search="none"
                 title="Most Relevant"
-                itemOne="Most Recent"
-                itemTwo="Highest Pay"
+                items={items}
               />
             </div>
           </div>
@@ -72,66 +64,69 @@ const JobList = (props) => {
             <div className="col-lg-2 col-md-4 col-6 pr-0 mt-3">
               <DropDown
                 id="filter"
+                name="filterByDate"
                 search="none"
                 title="Date Posted"
-                itemOne="Today"
-                itemTwo="1-3 Days"
-                itemThree="1-7 Days"
+                items={items}
               />
             </div>
             <div className="col-lg-2 col-md-4 col-6 pr-0 mt-3">
               <DropDown
                 id="filter"
+                name="filterByJobType"
                 search="none"
                 title="Job Type"
-                itemOne="Hourly"
-                itemTwo="Fixed Price"
+                items={items}
               />
             </div>
             <div className="col-lg-2 col-md-4 col-6 pr-0 mt-3">
               <DropDown
                 id="filter"
-                search="block"
-                title="Category"
-                itemOne={checkbox}
-                itemTwo={checkbox}
-                itemThree={checkbox}
-              />
-            </div>
-            <div className="col-lg-2 col-md-4 col-6 pr-0 mt-3">
-              <DropDown
-                id="filter"
+                name="filterByCategory"
+                subtype="checkbox"
                 search="none"
-                title="Duration"
-                itemOne={checkbox}
-                itemTwo={checkbox}
-                itemThree={checkbox}
+                title="Category"
+                items={items}
               />
             </div>
             <div className="col-lg-2 col-md-4 col-6 pr-0 mt-3">
               <DropDown
                 id="filter"
-                type="slider"
+                name="filterBySkills"
+                subtype="checkbox"
+                search="block"
+                title="Skills"
+                items={items}
+              />
+            </div>
+            <div className="col-lg-2 col-md-4 col-6 pr-0 mt-3">
+              <DropDown
+                id="filter"
+                name="filterBySalary"
+                subtype="slider"
                 search="none"
                 title="Salary"
-                itemOne={hourlySlider}
-                itemTwo={priceSlider}
+                items={items}
+                sliderOne={hourlySlider}
+                sliderTwo={priceSlider}
               />
             </div>
             <div className="col-lg-2 col-md-4 col-6 pr-0 mt-3">
               <DropDown
                 id="filter"
+                name="filterByLocation"
+                subtype="checkbox"
                 search="block"
                 title="Location"
-                itemOne={checkbox}
-                itemTwo={checkbox}
-                itemThree={checkbox}
+                items={items}
               />
             </div>
           </div>
 
           <div className="row">
-            <div className="col mt-3">I'm a new row! Test me!</div>
+            <div className="col mt-3">
+              <JobItems />
+            </div>
           </div>
         </main>
       </div>
@@ -139,10 +134,4 @@ const JobList = (props) => {
   ); 
 } 
 
-const mapStateToProps = state => {
-  return {
-    searchTerm: state.search.value
-  }
-}
-
-export default connect(mapStateToProps) (JobList);
+export default JobList;

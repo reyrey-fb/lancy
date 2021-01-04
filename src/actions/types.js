@@ -7,3 +7,5 @@ export const SIGNUP_ERROR = "SIGNUP_ERROR";
 export const SEARCH_SUBMIT = "SEARCH_SUBMIT";
 export const MIN_SELECTED = "MIN_SELECTED";
 export const MAX_SELECTED = "MAX_SELECTED";
+export const ITEM_SELECTED = "ITEM_SELECTED";
+export const FEED_FETCHED = "FEED_FETCHED";

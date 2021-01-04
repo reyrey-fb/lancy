@@ -23,13 +23,14 @@ const renderInput = ({ id, label, input }) => {
   return (
     <div className="container-fluid position-relative" id={id}>
       <div className={rowClassName}>
-          {label}
-          <input
-            {...input}
-            type="text"
-            placeholder=" Search..."
-            className={inputClassName}
-          />
+        {label}
+        <input
+          {...input}
+          type="text"
+          placeholder=" Search..."
+          className={inputClassName}
+          autoComplete="off"
+        />
       </div>
     </div>
   );
@@ -61,9 +62,20 @@ const SearchBar = ({ id, handleSubmit, submitSearch }) => {
   );
 }
 
-const mapDispatchToProps = dispatch => {
+const mapStateToProps = (state, ownProps) => {
+  //creating local instances of the search component state in redux store
+  let name = ownProps.name;
+  let localState = state[name];
+
+  return {
+    name: name,
+    value: localState.value
+  }
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        submitSearch: (formValues) => dispatch(submitSearch(formValues))
+        submitSearch: (formValues) => dispatch(submitSearch(ownProps.name, formValues))
     }
 }
 
@@ -71,4 +83,4 @@ const formWrapped= reduxForm({
     form: "SearchBar"
 }) (SearchBar);
 
-export default connect(null, mapDispatchToProps)(formWrapped);
+export default connect(mapStateToProps, mapDispatchToProps)(formWrapped);

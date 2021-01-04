@@ -96,10 +96,6 @@ div .search-filter-icon::after {
   padding: 0.5rem 1rem 0.5rem 1rem !important;
 }
 
-.slider-item:hover, .slider-item:focus {
-  background-color: white !important;
-}
-
 .dropdown-item:hover, .dropdown-item:focus {
   color: #1E5EFF;
   background-color: #ecf2ff;
@@ -113,9 +109,13 @@ div .search-filter-icon::after {
   color: #717598;
 }
 
-/*span:empty, div:empty {
-     display: none;
- }*/
+.form-check-label {
+  color: #717598;
+}
+
+.form-check-label:hover, .form-check:focus {
+  color:  #1E5EFF;
+}
 
 
 

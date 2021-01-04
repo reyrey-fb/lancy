@@ -1,10 +1,10 @@
 import { SEARCH_SUBMIT } from "./types";
 
 //SearchBar Action Creator
-export const submitSearch = value => {
+export const submitSearch = (name, value) => {
     return (dispatch) => {
         dispatch({
-            type: SEARCH_SUBMIT,
+            type: `${name}/${SEARCH_SUBMIT}`,
             value
         })
     }

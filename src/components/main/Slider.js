@@ -5,11 +5,7 @@ import { selectMinValue, selectMaxValue } from "../../actions/sliderActions";
 import "../../scss/slider.css";
 
 class Slider extends Component {
-
-componentDidMount() {
-    console.log(this.props);
-}
-    
+        
   //Drag and drop event handlers
   //Prevent continuous firings of event handler while object is being dragged
   onDragOver = (e) => {
