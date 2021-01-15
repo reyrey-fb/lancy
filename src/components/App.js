@@ -14,6 +14,7 @@ import Slider from './main/Slider';
 
 
 
+
 class App extends Component {
     render() {
         return (

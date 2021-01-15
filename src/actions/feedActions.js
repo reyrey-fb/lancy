@@ -1,11 +1,13 @@
-import { FEED_FETCHED } from "./types";
+import { FETCH_FEED } from "./types";
+import { upworkRSS } from "../rss/upwork";
 
-//action creator to fetch the Upwork RSS feed
-export const fetchUpworkFeed = feed => {
-    return (dispatch) => {
-        dispatch ({
-            type: FEED_FETCHED,
-            payload: feed 
-        })
-    }
+
+export const fetchUpworkRSSFeed = () => async dispatch => {
+    const feed = await upworkRSS;
+    dispatch ({
+        type: FETCH_FEED,
+        payload: feed
+    })
 }
+
+

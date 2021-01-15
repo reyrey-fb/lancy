@@ -1,4 +1,4 @@
-import { FEED_FETCHED } from "../actions/types";
+import { FETCH_FEED } from "../actions/types";
 
 const INITIAL_STATE = {
     feed: []
@@ -6,7 +6,7 @@ const INITIAL_STATE = {
 
 const feedReducer = (state=INITIAL_STATE, action) => {
     switch(action.type) {
-        case FEED_FETCHED: 
+        case FETCH_FEED: 
             return {
                 ...state,
                 feed: action.payload 

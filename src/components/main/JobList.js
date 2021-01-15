@@ -7,6 +7,7 @@ import { items } from "./DropDownItems";
 import Slider from './Slider';
 import JobItems from './JobItems';
 
+
 import "../../scss/main.css";
 
 const JobList = (props) => {
@@ -125,7 +126,9 @@ const JobList = (props) => {
 
           <div className="row">
             <div className="col mt-3">
-              <JobItems />
+                <JobItems
+                  name="jobItems"
+                />
             </div>
           </div>
         </main>

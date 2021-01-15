@@ -8,6 +8,8 @@ import searchReducer from "./searchReducer";
 import sliderReducer from './sliderReducer';
 import dropdownReducer from "./dropdownReducer";
 import feedReducer from './feedReducer';
+import errorReducer from './errorReducer';
+import filterDataReducer from './filterDataReducer';
 
 export default combineReducers({
   //component reducers
@@ -24,8 +26,12 @@ export default combineReducers({
   filterBySkills: dropdownReducer("filterBySkills"),
   filterBySalary: dropdownReducer("filterBySalary"),
   filterByLocation: dropdownReducer("filterByLocation"),
-  //RSS Feed Reducer
+  //RSS feed reducer
   upworkFeed: feedReducer,
+  //filter data reducer
+  //hourlyFilterData: filterDataReducer(),
+  //error catching reducer
+  errorInJobItems: errorReducer("jobItems"),
   //redux form reducer
   form: formReducer,
   //add firebase to reducers

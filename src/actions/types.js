@@ -8,4 +8,6 @@ export const SEARCH_SUBMIT = "SEARCH_SUBMIT";
 export const MIN_SELECTED = "MIN_SELECTED";
 export const MAX_SELECTED = "MAX_SELECTED";
 export const ITEM_SELECTED = "ITEM_SELECTED";
-export const FEED_FETCHED = "FEED_FETCHED";
+export const FETCH_FEED = "FETCH_FEED";
+export const CATCH_ERROR = "CATCH_ERROR";
+export const GET_HOURLY_DATA = "GET_HOURLY_DATA";
