@@ -29,7 +29,7 @@ export default combineReducers({
   //RSS feed reducer
   upworkFeed: feedReducer,
   //filter data reducer
-  //hourlyFilterData: filterDataReducer(),
+  customUpworkFeed: filterDataReducer,
   //error catching reducer
   errorInJobItems: errorReducer("jobItems"),
   //redux form reducer

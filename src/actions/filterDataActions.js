@@ -1,9 +1,9 @@
-import { GET_HOURLY_DATA } from "./types";
+import { GET_FILTER_DATA } from "./types";
 
-export const getHourlyData = (data) => {
+export const getFilterData = (data) => {
     return (dispatch) => {
         dispatch({
-            type: GET_HOURLY_DATA,
+            type: GET_FILTER_DATA,
             payload: data
         })
     }

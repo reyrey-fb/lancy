@@ -1,6 +1,4 @@
-import React from 'react';
 import { upworkRSS } from "../rss/upwork";
-import parse from "html-react-parser";
 
 /** global job list variable with extracted item data **/
 export let customJobItemsList = [];
@@ -39,14 +37,14 @@ export let customJobItemsList = [];
           }
         }
       }
-      console.log(labelList);
+      //console.log(labelList);
 
         //match label and description in the same object: labelMatchList = [{ "hourlyRange" : "$15.00-$35.00"}]
         let labelMatchList = [];
         for ( let k = 0; k < labelList.label.length; k++ ) {
             labelMatchList.push({ [labelList.label[k]] : labelList.description[k] });
         }
-        console.log(labelMatchList);
+        //console.log(labelMatchList);
 
         //chunk label array into subarrays, divided at each job item point, achieved by cutting arrays between the Country keys, an inflection point
         let sliceIndex = [0];
@@ -82,7 +80,7 @@ export let customJobItemsList = [];
           return filterLabelsArray.push(labelMatchList.slice(start,endArray[i]));
           //filterLabelsObject = {...filterLabelsArray};
         })
-        console.log(filterLabelsArray);
+        //console.log(filterLabelsArray);
 
         //building custom job items list as a nested array to contain data object pairs
         //let customJobItemsList = [];
@@ -96,9 +94,8 @@ export let customJobItemsList = [];
             filterLabelsArray: filterLabelsArray[i]} //filter labels [0: {label: description}, 1: {label:description}] -- indexes are linked to the filter labels
           )
         })
-        console.log(customJobItemsList);
-        //console.log(Object.keys(customJobItemsList[0][0].filterLabelsArray[0])[0]); //first index in jobitem number (loop), 2nd is always 0, 3rd is an i loop for the filter, if === "Hourly Range"
-
+        //console.log(customJobItemsList);
+       
         /**** assigning and cleaning variables for reading in filters ****/
         let hourlyRangeMap = new Map()
         let fixedPriceMap = new Map()
@@ -150,11 +147,11 @@ export let customJobItemsList = [];
           }
         }
 
-        console.log(hourlyRangeMap);
-        console.log(fixedPriceMap);
-        console.log(skillsMap);
-        console.log(locationMap);
-        console.log(categoryMap);
+        //console.log(hourlyRangeMap);
+        //console.log(fixedPriceMap);
+        //console.log(skillsMap);
+        //console.log(locationMap);
+        //console.log(categoryMap);
 
         //combining all parsed Map filter values under one cohesive jobs list
         for ( let i = 0; i < customJobItemsList.length; i++) {
@@ -194,7 +191,7 @@ export let customJobItemsList = [];
         for ( let i = 0; i < customJobItemsList.length; i++) {
                 customJobItemsList[i] = Object.assign(customJobItemsList[i][0], customJobItemsList[i][1], customJobItemsList[i][2], customJobItemsList[i][3], customJobItemsList[i][4], customJobItemsList[i][5])
     }
-    console.log(customJobItemsList);
+    //console.log(customJobItemsList);
     
     //add in empty/default values to handle empty objects and undefined error
     for ( let i = 0; i < customJobItemsList.length; i++) {
@@ -214,32 +211,13 @@ export let customJobItemsList = [];
             customJobItemsList[i] = Object.assign(customJobItemsList[i], {location: ""})
         }
     }
-    console.log(customJobItemsList)
-
-    customJobItemsList.map((item, i) => { //EVERYTHING WORKS, YOU CAN MAP THROUGH THIS DATA SET!!
-        //console.log(i, item.hourlyRange.lowPrice, item.fixedPrice.price, item.skills, item.category, item.location, item.datePosted);
-    })
+    console.log(customJobItemsList);
     
-    
-    //PUSH TO REDUX
+    return customJobItemsList; 
+    //iterable list of job items, .map ((item, i) => item.filterName.subFilter))
+    //item.hourlyRange.lowPrice, item.fixedPrice.price, item.skills, item.category, item.location, item.datePosted)
 
-
-    return customJobItemsList; //iterable list of job items, .map ((item, i) => item.filterName.subFilter))
-
-        /*return (
-            <div>
-            { customJobItemsList.map((item, i) => (
-                <ul key= {i}>
-                    <li>Job Type: {item[1] ? item[1].hourlyRange.jobType : "Fixed Price"}</li>
-                    <li>High Price: {item[1] ? item[1].hourlyRange.highPrice : 0 }</li>
-                    <li>Low Price: {item[1] ? item[1].hourlyRange.lowPrice : 0 }</li>
-                </ul>
-            ))}
-          </div>
-        )*/
     }
 
     export default useFilterDataFromRSS;
 
-    //original RSS: jobItems.isoDate: "2021-01-09T01:06:25.000Z"
-    //const dateFormat = new Date(jobItems[0].isoDate);*/

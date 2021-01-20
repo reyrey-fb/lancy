@@ -1,4 +1,4 @@
-import { GET_HOURLY_DATA } from "../actions/types";
+import { GET_FILTER_DATA } from "../actions/types";
 
 const INITIAL_STATE = {
     data: []
@@ -6,7 +6,7 @@ const INITIAL_STATE = {
 
 const filterDataReducer = ( state= INITIAL_STATE, action) => {
     switch(action.type) {
-        case GET_HOURLY_DATA:
+        case GET_FILTER_DATA:
             return {
                 ...state,
                 data: action.payload
