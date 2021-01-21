@@ -14,6 +14,54 @@ const DropDown = (props) => {
     //call dropdown action creator
     props.selectDropdownItem(item);
     console.log(`${item} selected from dropdown menu`);
+
+    //variables for date filter calculations
+    const oneDay = 24 * 60 * 60 * 1000; //hours*minutes*seconds*milliseconds
+    let today = new Date();
+
+    //Dropdown filter match logic
+    props.customUpworkFeed.map((jobItem, i) => {
+
+      const dateJobPosted = new Date(jobItem.datePosted);
+      const daysSinceJobPosted = Math.round(Math.abs((today - dateJobPosted) / oneDay));
+
+      //datePosted filter
+      if ( item === "Today" && daysSinceJobPosted <= 1 ) {
+        console.log(`job at ${i} was posted today`)
+      } else if ( item === "1-3 Days" && daysSinceJobPosted <= 3 ) {
+        console.log(`job at ${i} was posted in the last 3 days`)
+      } else if ( item === "1-7 Days" && daysSinceJobPosted <= 7 ) {
+        console.log(`job at ${i} was posted in the last 7 days`)
+      }
+
+      //job type filter
+      if (jobItem.hourlyRange.jobType === item) {
+        console.log(`user selected a job type match at index ${i}`)
+      } else if (jobItem.fixedPrice.jobType === item) {
+        console.log(`user selected a job type match at index ${i}`)
+      }
+
+      //category filter
+      if (jobItem.category === item) {
+        console.log(`user selected a category match at index ${i}`)
+      }
+
+      //skills filter
+      jobItem.skills.map((skill) => {
+        if ( skill === item) {
+          console.log(`user selected a skill match at index ${i}`)
+        }
+      })
+
+      //slider filter match logic is in Slider component event handler
+      
+      //location filter
+      if (jobItem.location === item) {
+        console.log(`user selected a location match at index ${i}`)
+      }
+    
+    })
+    
   };
 
   //dynamically render dropdown menu items
@@ -84,7 +132,7 @@ const DropDown = (props) => {
           let searchName =
             props.title === "Skills"
               ? "filterBySkillsSearch"
-              : "filterByLocationSearch";
+              : "filterByCategorySearch";
           return (
             <div className="dropdown btn-group border rounded-sm position-relative">
               <button
@@ -138,7 +186,8 @@ const mapStateToProps = (state, ownProps) => {
   let localState = state[name];
   return {
     name: name,
-    item: localState.item
+    item: localState.item,
+    customUpworkFeed: state.customUpworkFeed.data
   }
 }
 

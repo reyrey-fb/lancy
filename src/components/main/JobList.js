@@ -55,7 +55,7 @@ const JobList = (props) => {
                 id="sortBy"
                 name="sort"
                 search="none"
-                title="Most Relevant"
+                title="Most Recent"
                 items={items}
               />
             </div>
@@ -85,7 +85,7 @@ const JobList = (props) => {
                 id="filter"
                 name="filterByCategory"
                 subtype="checkbox"
-                search="none"
+                search="block"
                 title="Category"
                 items={items}
               />
@@ -117,7 +117,7 @@ const JobList = (props) => {
                 id="filter"
                 name="filterByLocation"
                 subtype="checkbox"
-                search="block"
+                search="none"
                 title="Location"
                 items={items}
               />

@@ -37,6 +37,18 @@ class Slider extends Component {
     this.sliderType = null; //reset min/max sliderType
   };
 
+  //slider filter match logic
+  filterLogic = () => {
+    this.props.customUpworkFeed.map((item, i) => {
+      if ( item.hourlyRange.jobType === "Hourly" && this.props.start <= item.hourlyRange.highPrice) {
+        console.log(`user selected hourly price of $${this.props.start}-$${this.props.end}. $${item.hourlyRange.lowPrice}-${item.hourlyRange.highPrice} at index ${i} falls within the price range`)
+      }
+      if (item.fixedPrice.jobType === "Fixed Price" && this.props.start <= item.fixedPrice.price && this.props.end >= item.fixedPrice.price) {
+        console.log(`user selected a desired fixed price of $${this.props.start}-$${this.props.end}. $${item.fixedPrice.price} at index ${i} falls within this range`);
+      }
+    })
+  }
+
   //JSX for rendering the thumbs for the slider start
   MinSlider = () => {
     return (
@@ -135,6 +147,8 @@ class Slider extends Component {
       );
     }
     console.log(this.props);
+    this.filterLogic();
+
     return (
       <div className="container p-0">
         <div className="row">
@@ -161,7 +175,8 @@ const mapStateToProps = (state, ownProps) => {
       slots: localState.slots,
       step: localState.step,
       start: localState.start,
-      end: localState.end
+      end: localState.end,
+      customUpworkFeed: state.customUpworkFeed.data
     };
 }
 

@@ -16,7 +16,7 @@ export default combineReducers({
   auth: authReducer,
   mainSearch: searchReducer("mainSearch"),
   filterBySkillsSearch: searchReducer("filterBySkillsSearch"),
-  filterByLocationSearch: searchReducer("filterByLocationSearch"),
+  filterByCategorySearch: searchReducer("filterByCategorySearch"),
   hourlySlider: sliderReducer("hourlySlider"),
   priceSlider: sliderReducer("priceSlider"),
   sort: dropdownReducer("sort"),

@@ -112,7 +112,7 @@ export let customJobItemsList = [];
               let hourlyRange = Object.values(customJobItemsList[i][0].filterLabelsArray[j])[0]; // ": $19.00-$46.00"
               let hourlyRangeLow = parseInt(hourlyRange.slice(3,8)); // convert string into workable integer
               let hourlyRangeHigh = parseInt(hourlyRange.slice(10));
-              jobType = "hourly";
+              jobType = "Hourly";
               hourlyRangeMap.set( i, { jobType: jobType, lowPrice: hourlyRangeLow, highPrice: hourlyRangeHigh}); 
             }
               //[0: {jobItem5 => {jobType : hourly, lowPrice : 15, highPrice : 45}}] jobItem is the key, the object is the value
