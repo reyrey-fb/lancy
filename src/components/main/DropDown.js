@@ -6,6 +6,7 @@ import "../../scss/main.css";
 import "../../scss/lancy.css";
 import { selectDropdownItem } from "../../actions/dropdownActions";
 
+
 const DropDown = (props) => {
   const {items} = props;
 
@@ -15,56 +16,95 @@ const DropDown = (props) => {
     props.selectDropdownItem(item);
     console.log(`${item} selected from dropdown menu`);
 
-    //variables for date filter calculations
-    const oneDay = 24 * 60 * 60 * 1000; //hours*minutes*seconds*milliseconds
-    let today = new Date();
+    //***DROPDOWN FILTER MATCH LOGIC - RETURN CONDITIONAL JOB LISTS BASED ON USER DROPDOWN SELECTION***//
 
-    //Dropdown filter match logic
-    props.customUpworkFeed.map((jobItem, i) => {
-
+    //datePosted filter arrays (3)
+      //variables for date filter calculations
+      const oneDay = 24 * 60 * 60 * 1000; //hours*minutes*seconds*milliseconds
+      let today = new Date();
+    //filter: job posted today
+    const datePostedFilterTodayJobsArray = props.customUpworkFeed.filter ( (jobItem, i) => {
       const dateJobPosted = new Date(jobItem.datePosted);
       const daysSinceJobPosted = Math.round(Math.abs((today - dateJobPosted) / oneDay));
-
-      //datePosted filter
       if ( item === "Today" && daysSinceJobPosted <= 1 ) {
         console.log(`job at ${i} was posted today`)
-      } else if ( item === "1-3 Days" && daysSinceJobPosted <= 3 ) {
+        return jobItem; //[{jobItem}, {}, {}]
+      }
+    })
+     if (datePostedFilterTodayJobsArray.length) {console.log(datePostedFilterTodayJobsArray);}
+    //filter: job posted in the last 3 days
+    const datePostedFilter3DaysJobsArray = props.customUpworkFeed.filter ( (jobItem, i) => {
+      const dateJobPosted = new Date(jobItem.datePosted);
+      const daysSinceJobPosted = Math.round(Math.abs((today - dateJobPosted) / oneDay));
+      if ( item === "1-3 Days" && daysSinceJobPosted <= 3 ) {
         console.log(`job at ${i} was posted in the last 3 days`)
-      } else if ( item === "1-7 Days" && daysSinceJobPosted <= 7 ) {
+        return jobItem; //[{jobItem}, {}, {}]
+      }
+    })
+    if (datePostedFilter3DaysJobsArray.length) {console.log(datePostedFilter3DaysJobsArray);}
+    //filter: job posted in the last 7 days
+    const datePostedFilter7DaysJobsArray = props.customUpworkFeed.filter ( (jobItem, i) => {
+      const dateJobPosted = new Date(jobItem.datePosted);
+      const daysSinceJobPosted = Math.round(Math.abs((today - dateJobPosted) / oneDay));
+      if ( item === "1-7 Days" && daysSinceJobPosted <= 7 ) {
         console.log(`job at ${i} was posted in the last 7 days`)
+        return jobItem; //[{jobItem}, {}, {}]
       }
+    })
+    if (datePostedFilter7DaysJobsArray.length) {console.log(datePostedFilter7DaysJobsArray);}
 
-      //job type filter
+    //job type filter arrays (2)
+    //filter: hourly job type
+    const jobTypeFilterHourlyJobsArray = props.customUpworkFeed.filter ( (jobItem, i) => {
       if (jobItem.hourlyRange.jobType === item) {
-        console.log(`user selected a job type match at index ${i}`)
-      } else if (jobItem.fixedPrice.jobType === item) {
-        console.log(`user selected a job type match at index ${i}`)
+        console.log(`user selected a job type match of hourly at index ${i}`)
+        return jobItem; //[{jobItem}, {}, {}]
       }
-
-      //category filter
-      if (jobItem.category === item) {
-        console.log(`user selected a category match at index ${i}`)
+    })
+    if (jobTypeFilterHourlyJobsArray.length) {console.log(jobTypeFilterHourlyJobsArray);}
+    //filter: fixed price job type
+    const jobTypeFilterFixedPriceJobsArray = props.customUpworkFeed.filter ( (jobItem, i) => {
+      if (jobItem.fixedPrice.jobType === item) {
+        console.log(`user selected a fixed price job type match of hourly at index ${i}`)
+        return jobItem; //[{jobItem}, {}, {}]
       }
+    })
+    if (jobTypeFilterFixedPriceJobsArray.length) {console.log(jobTypeFilterFixedPriceJobsArray);}
 
-      //skills filter
+    //category filter
+    const categoryFilterJobsArray = props.customUpworkFeed.filter( (jobItem, i) => {
+        if (jobItem.category === item) {
+          console.log(`user selected a category match at index ${i}`)
+          return jobItem; //[{jobItem}, {}, {}]
+      }
+    })
+    if (categoryFilterJobsArray.length) {console.log(categoryFilterJobsArray);}
+
+    //skills filter
+    let skillsFilterJobsArray = [];
+    props.customUpworkFeed.map( (jobItem, i) => {
       jobItem.skills.map((skill) => {
-        if ( skill === item) {
-          console.log(`user selected a skill match at index ${i}`)
+        if ( skill === item ) {
+          console.log(`user selected a skill ${skill} which matches at index ${i}`)
+          skillsFilterJobsArray.push(jobItem); //[{jobItem}, {}, {}]
         }
       })
-
-      //slider filter match logic is in Slider component event handler
-      
-      //location filter
-      if (jobItem.location === item) {
-        console.log(`user selected a location match at index ${i}`)
-      }
-    
     })
+    if (skillsFilterJobsArray.length) {console.log(skillsFilterJobsArray);}
     
-  };
+    //Salary Slider filter match logic is in Slider component event handler
 
-  //dynamically render dropdown menu items
+    //location filter
+    const locationFilterJobsArray = props.customUpworkFeed.filter( (jobItem, i) => {
+      if (jobItem.location === item) {
+        console.log(`user selected a location match at index ${i}`);
+        return jobItem; //[{jobItem}, {}, {}]
+      }
+    })
+    if (locationFilterJobsArray.length) {console.log(locationFilterJobsArray);}
+  }
+
+  //***dynamically render dropdown menu items***//
   const renderItems = items.map((item) => {
 
     //conditional styling for slider and checkbox items
@@ -179,6 +219,7 @@ const DropDown = (props) => {
     </div>
   );
 }
+
 
 const mapStateToProps = (state, ownProps) => {
   //creating local instances of the slider component state in redux store

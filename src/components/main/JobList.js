@@ -7,7 +7,6 @@ import { items } from "./DropDownItems";
 import Slider from './Slider';
 import JobItems from './JobItems';
 
-
 import "../../scss/main.css";
 
 const JobList = (props) => {
@@ -35,6 +34,7 @@ const JobList = (props) => {
       </div>
     );
 
+      
   return (
     <div className="container-fluid">
       <div className="row">
