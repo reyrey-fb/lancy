@@ -28,21 +28,11 @@ class NavBar extends Component {
                     <img
                       src={require("../../assets/icons/home.svg")}
                       alt="Home"
-                      width="10"
-                      height="10"
+                      width="20"
+                      height="20"
                     />
                   </Link>
-                </li>
-                <li className="nav-item row align-items-center">
-                  <Link className="nav-link" to="/savedjobs">
-                    <img
-                      src={require("../../assets/icons/faves_empty.svg")}
-                      alt="Favorites"
-                      width="10"
-                      height="10"
-                    />
-                  </Link>
-                </li>
+                </li>               
               </div>
               <li className="nav-item row align-items-end">
                 <Link className="nav-link" to="/account/profile">
