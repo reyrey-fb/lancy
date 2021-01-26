@@ -5,7 +5,8 @@ export const selectDropdownItem = (name, item) => {
     return(dispatch) => {
         dispatch ({
             type: `${name}/${ITEM_SELECTED}`,
-            payload: item
+            name,
+            item
         })
     }
 }

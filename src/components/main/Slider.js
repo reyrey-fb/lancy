@@ -37,27 +37,6 @@ class Slider extends Component {
     this.sliderType = null; //reset min/max sliderType
   };
 
-   //***SLIDER FILTER MATCH LOGIC - RETURN CONDITIONAL JOB LISTS BASED ON USER SLIDER SELECTION***//
-  filterArrays = () => {
-    //salary filter arrays (2)
-    //hourly price filter
-    const salaryHourlyFilterJobsArray = this.props.customUpworkFeed.filter ((jobItem, i) => {
-      if ( jobItem.hourlyRange.jobType === "Hourly" && this.props.start <= jobItem.hourlyRange.highPrice) {
-        console.log(`user selected hourly price of $${this.props.start}-$${this.props.end}. $${jobItem.hourlyRange.lowPrice}-${jobItem.hourlyRange.highPrice} at index ${i} falls within the price range`)
-        return jobItem;
-      }
-    })
-    if (salaryHourlyFilterJobsArray.length) {console.log(salaryHourlyFilterJobsArray);}
-    //fixed price filter
-    const salaryFixedPriceFilterJobsArray = this.props.customUpworkFeed.filter ((jobItem, i) => {
-      if ( jobItem.fixedPrice.jobType === "Fixed Price" && this.props.start <= jobItem.fixedPrice.price && this.props.end >= jobItem.fixedPrice.price ) {
-        console.log(`user selected a desired fixed price of $${this.props.start}-$${this.props.end}. $${jobItem.fixedPrice.price} at index ${i} falls within this range`)
-        return jobItem;
-      }
-    })
-    if (salaryFixedPriceFilterJobsArray.length) {console.log(salaryFixedPriceFilterJobsArray);}
-  }
-
   //JSX for rendering the thumbs for the slider start
   MinSlider = () => {
     return (
@@ -155,8 +134,7 @@ class Slider extends Component {
         </div>
       );
     }
-    console.log(this.props);
-    this.filterArrays();
+    console.log(this.props.name);
 
     return (
       <div className="container p-0">
@@ -180,7 +158,7 @@ const mapStateToProps = (state, ownProps) => {
     let name = ownProps.name;
     let localState = state[name];
     return {
-      name: name,
+      name: localState.name,
       slots: localState.slots,
       step: localState.step,
       start: localState.start,
@@ -191,8 +169,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    selectMinValue: value => dispatch(selectMinValue(ownProps.name, value)),
-    selectMaxValue: value => dispatch(selectMaxValue(ownProps.name, value))
+    selectMinValue: item => dispatch(selectMinValue(ownProps.name, item)),
+    selectMaxValue: item => dispatch(selectMaxValue(ownProps.name, item))
   };
 };
 

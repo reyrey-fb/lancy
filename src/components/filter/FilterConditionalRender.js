@@ -7,6 +7,12 @@ class FilterConditionalRender extends Component {
 
     render () {
         console.log(this.props.filterArray);
+        console.log(this.props.name)
+
+      if (!this.props.filterArray) {
+        return <div>No posting matched your search. Try searching for broader criteria...</div>
+      }
+
         return (
             <div>
             {this.props.filterArray &&
@@ -20,16 +26,6 @@ class FilterConditionalRender extends Component {
         )
     }
 }
-
-/*const mapStateToProps = (state, ownProps) => {
-  let name = ownProps.name;
-  let localState = state[name];
-  return {
-    name: name,
-    item: localState.item,
-    customUpworkFeed: state.customUpworkFeed.data
-  }
-}*/
 
 export default connect(null)(FilterConditionalRender);
 

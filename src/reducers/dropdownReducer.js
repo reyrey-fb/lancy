@@ -1,19 +1,21 @@
 import { ITEM_SELECTED } from "../actions/types";
 
 const INITIAL_STATE = {
+    name: '',
     item: ''
 }
 
 const dropdownReducer = (name) => (state=INITIAL_STATE, action) => {
     switch(action.type) {
         case `${name}/${ITEM_SELECTED}`:
-            console.log(`${name} dropdown item selected`);
+            console.log(`${name} dropdown selected`);
             return {
                 ...state,
-                item: action.payload
+                name: action.name,
+                item: action.item
             }
         default:
-            return state;
+            return INITIAL_STATE; //return dropdown to initial/blank state when it is inactive
     }
 }
 
