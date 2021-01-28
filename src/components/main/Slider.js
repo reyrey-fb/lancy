@@ -134,7 +134,6 @@ class Slider extends Component {
         </div>
       );
     }
-    console.log(this.props.name);
 
     return (
       <div className="container p-0">

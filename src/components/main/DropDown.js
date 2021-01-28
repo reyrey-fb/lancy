@@ -18,6 +18,27 @@ const DropDown = (props) => {
     console.log(`${item} selected from dropdown menu`);
   }
 
+  const handleSearchSubmit = (searchTerm) => {
+    if (props.title === "Skills" && searchTerm.length !== 0) {
+      const searchSkillsArray = props.items[4].option.filter((option) => {
+        if (searchTerm.length !== 0 && (option.toLowerCase().includes(searchTerm.toLowerCase()))) {
+          console.log(`the ${searchTerm} was found at ${option} from skills dropdown list`)
+          return option;
+        }
+      })
+      console.log(searchSkillsArray)
+    }
+    if (props.title === "Category" && searchTerm.length !== 0) {
+      const searchCategoryArray = props.items[3].option.filter((option) => {
+        if (searchTerm.length !== 0 && (option.toLowerCase().includes(searchTerm.toLowerCase()))) {
+          console.log(`the ${searchTerm} was found at ${option} from category dropdown list`)
+          return option;
+        }
+      })
+      console.log(searchCategoryArray)
+    }
+  }
+
   //***dynamically render dropdown menu items***//
   const renderItems = items.map((item) => {
 
@@ -104,7 +125,10 @@ const DropDown = (props) => {
                 aria-labelledby="dropdownMenuButton"
               >
                 <div className={`d-${props.search}`}>
-                  <SearchBar name={searchName} />
+                  <SearchBar 
+                    name={searchName}
+                    onSubmit={searchName === "filterBySkillsSearch" ? handleSearchSubmit(props.skillsSearchTerm) : handleSearchSubmit(props.categorySearchTerm)}
+                   />
                 </div>
                 {renderOptions}
               </ol>
@@ -142,7 +166,9 @@ const mapStateToProps = (state, ownProps) => {
   return {
     name: localState.name,
     item: localState.item,
-    customUpworkFeed: state.customUpworkFeed.data
+    customUpworkFeed: state.customUpworkFeed.data,
+    skillsSearchTerm: state.filterBySkillsSearch.term,
+    categorySearchTerm: state.filterByCategorySearch.term
   }
 }
 

@@ -48,10 +48,13 @@ class JobItems extends Component {
           )
         }
 
-    renderSelectedFilter (item, sliderStart, sliderEnd) {
+    renderSelectedFilter (item, sliderStart, sliderEnd, searchTerm) {
+      console.log(`filter item value is ${item}`);
+      console.log(`search term value is ${searchTerm}`);
+      console.log(`slider range is: ${sliderStart}, ${sliderEnd}`);
       
       //default page load display, if no filter item is selected
-      if (!item && !sliderStart && !sliderEnd) {
+      if (!item && !sliderStart && !sliderEnd && !searchTerm) {
         return (
           <div>
             {this.props.upworkFeed.items &&
@@ -65,8 +68,47 @@ class JobItems extends Component {
         )
       } 
   
-//***DROPDOWN FILTER MATCH LOGIC - RETURN CONDITIONAL JOB LISTS BASED ON USER DROPDOWN SELECTION***//
+//***DROPDOWN FILTER AND SEARCH TERM MATCH LOGIC - RETURN CONDITIONAL JOB LISTS BASED ON USER INPUT***//
       let filterArray;
+      //search term array
+      const searchArray = this.props.customUpworkFeed.filter( (jobItem, i) => {
+        if (searchTerm.length !== 0 && (jobItem.title.toLowerCase().includes(searchTerm.toLowerCase()) || jobItem.postContent.toLowerCase().includes(searchTerm.toLowerCase()))) {
+          console.log(`the search term ${searchTerm} was found in title: "${jobItem.title}" at job item index ${i}`)
+        return jobItem;
+        }
+      })
+       if (searchArray.length) {
+      filterArray = searchArray;
+     }
+
+     //sort by highest hourly pay array
+     const hourlyPayArray = this.props.customUpworkFeed.filter((jobItem) => {
+       if (jobItem.hourlyRange.jobType === "Hourly") {
+         return jobItem;
+       }
+     })
+     let sortByHighestHourlyPayArray = [];
+      if ( item === "Highest Hourly Pay" ) {
+        sortByHighestHourlyPayArray = hourlyPayArray.sort((a, b) => 
+        (a.hourlyRange.highPrice < b.hourlyRange.highPrice ? 1 : -1)); 
+      }
+    if (sortByHighestHourlyPayArray.length) {
+       filterArray = sortByHighestHourlyPayArray}
+
+    //sort by highest budget array
+     const budgetPayArray = this.props.customUpworkFeed.filter((jobItem) => {
+       if (jobItem.fixedPrice.jobType === "Fixed Price") {
+         return jobItem;
+       }
+     })
+     let sortByHighestBudgetArray = [];
+      if ( item === "Highest Budget" ) {
+        sortByHighestBudgetArray = budgetPayArray.sort((a, b) => 
+       (a.fixedPrice.price < b.fixedPrice.price ? 1 : -1)); 
+      }
+     if (sortByHighestBudgetArray.length) {
+       filterArray = sortByHighestBudgetArray}
+    
     //datePosted filter arrays (3)
       //variables for date filter calculations
       const oneDay = 24 * 60 * 60 * 1000; //hours*minutes*seconds*milliseconds
@@ -75,7 +117,7 @@ class JobItems extends Component {
     const datePostedFilterTodayJobsArray = this.props.customUpworkFeed.filter ( (jobItem, i) => {
       const dateJobPosted = new Date(jobItem.datePosted);
       const daysSinceJobPosted = Math.round(Math.abs((today - dateJobPosted) / oneDay));
-      if ( item === "Today" && daysSinceJobPosted <= 1 ) {
+      if ( item && item === "Today" && daysSinceJobPosted <= 1 ) {
         console.log(`job at ${i} was posted today`)
         return jobItem; //[{jobItem}, {}, {}]
       }
@@ -87,7 +129,7 @@ class JobItems extends Component {
     const datePostedFilter3DaysJobsArray = this.props.customUpworkFeed.filter ( (jobItem, i) => {
       const dateJobPosted = new Date(jobItem.datePosted);
       const daysSinceJobPosted = Math.round(Math.abs((today - dateJobPosted) / oneDay));
-      if ( item === "1-3 Days" && daysSinceJobPosted <= 3 ) {
+      if ( item && item === "1-3 Days" && daysSinceJobPosted <= 3 ) {
         console.log(`job at ${i} was posted in the last 3 days`)
         return jobItem; //[{jobItem}, {}, {}]
       }
@@ -99,7 +141,7 @@ class JobItems extends Component {
     const datePostedFilter7DaysJobsArray = this.props.customUpworkFeed.filter ( (jobItem, i) => {
       const dateJobPosted = new Date(jobItem.datePosted);
       const daysSinceJobPosted = Math.round(Math.abs((today - dateJobPosted) / oneDay));
-      if ( item === "1-7 Days" && daysSinceJobPosted <= 7 ) {
+      if ( item && item === "1-7 Days" && daysSinceJobPosted <= 7 ) {
         console.log(`job at ${i} was posted in the last 7 days`)
         return jobItem; //[{jobItem}, {}, {}]
       }
@@ -111,7 +153,7 @@ class JobItems extends Component {
     //job type filter arrays (2)
     //filter: hourly job type
     const jobTypeFilterHourlyJobsArray = this.props.customUpworkFeed.filter ( (jobItem, i) => {
-      if (jobItem.hourlyRange.jobType === item) {
+      if ( item && jobItem.hourlyRange.jobType === item) {
         console.log(`user selected a job type match of hourly at index ${i}`)
         return jobItem; //[{jobItem}, {}, {}]
       }
@@ -121,7 +163,7 @@ class JobItems extends Component {
     }
     //filter: fixed price job type
     const jobTypeFilterFixedPriceJobsArray = this.props.customUpworkFeed.filter ( (jobItem, i) => {
-      if (jobItem.fixedPrice.jobType === item) {
+      if ( item && jobItem.fixedPrice.jobType === item) {
         console.log(`user selected a fixed price job type match of fixed price at index ${i}`)
         return jobItem; //[{jobItem}, {}, {}]
       }
@@ -132,7 +174,7 @@ class JobItems extends Component {
 
     //category filter
     const categoryFilterJobsArray = this.props.customUpworkFeed.filter( (jobItem, i) => {
-        if (jobItem.category === item) {
+        if ( item && jobItem.category === item) {
           console.log(`user selected a category match at index ${i}`)
           return jobItem; //[{jobItem}, {}, {}]
       }
@@ -145,7 +187,7 @@ class JobItems extends Component {
     let skillsFilterJobsArray = [];
     this.props.customUpworkFeed.map( (jobItem, i) => {
       jobItem.skills.map((skill) => {
-        if ( skill === item ) {
+        if ( item && skill === item ) {
           console.log(`user selected a skill ${skill} which matches at index ${i}`)
           skillsFilterJobsArray.push(jobItem); //[{jobItem}, {}, {}]
         }
@@ -169,7 +211,7 @@ class JobItems extends Component {
     }
     //fixed price filter
     const salaryFixedPriceFilterJobsArray = this.props.customUpworkFeed.filter ((jobItem, i) => {
-      if ( jobItem.fixedPrice.jobType === "Fixed Price" && sliderStart <= jobItem.fixedPrice.price && sliderEnd >= jobItem.fixedPrice.price ) {
+      if ( !item && jobItem.fixedPrice.jobType === "Fixed Price" && sliderStart <= jobItem.fixedPrice.price && sliderEnd >= jobItem.fixedPrice.price ) {
         console.log(`user selected a desired fixed price of $${sliderStart}-$${sliderEnd}. $${jobItem.fixedPrice.price} at index ${i} falls within this range`)
         return jobItem;
       }
@@ -180,7 +222,7 @@ class JobItems extends Component {
 
     //location filter
     const locationFilterJobsArray = this.props.customUpworkFeed.filter( (jobItem, i) => {
-      if (jobItem.location === item) {
+      if ( item && jobItem.location === item) {
         console.log(`user selected a location match at index ${i}`);
         return jobItem; //[{jobItem}, {}, {}]
       }
@@ -191,17 +233,12 @@ class JobItems extends Component {
 
       //conditional filter render
       return <FilterConditionalRender
-                name = {this.props.filterName} //this works
                 filterArray = {filterArray}
-                selectedOption = {item}
             />
 
     }
 
     render() {
-      console.log(this.props.customUpworkFeed);
-      const test = customJobItemsList[0]; //UNDEFINED
-
         //show loading and catch errors
         if (this.props.upworkFeed.length === 0 && this.props.error === false) {
           return <div>Loading...</div>
@@ -212,7 +249,7 @@ class JobItems extends Component {
 
         return (
           <div>
-            {this.renderSelectedFilter(this.props.filterItem, this.props.sliderStart, this.props.sliderEnd)}
+            {this.renderSelectedFilter(this.props.filterItem, this.props.sliderStart, this.props.sliderEnd, this.props.searchTerm)}
           </div>
         );
     }
@@ -222,6 +259,10 @@ const mapStateToProps = (state) => {
 
    //dynamically generate the name of each filter name selected
    let dynamicFilterName = "filterBySalary"; //default filter name, to prevent undefined error
+    if (state.sort.name.length ) {
+      dynamicFilterName = state.sort.name;
+    }
+
     if (state.filterByDate.name.length ) {
       dynamicFilterName = state.filterByDate.name;
     }
@@ -251,7 +292,8 @@ const mapStateToProps = (state) => {
         customUpworkFeed: state.customUpworkFeed.data, //parsed data upwork feed
         filterItem: state[dynamicFilterName].item, //filter term selected from dropdown by user
         sliderStart: state[dynamicFilterName].start, //slider start value
-        sliderEnd: state[dynamicFilterName].end //slider end value
+        sliderEnd: state[dynamicFilterName].end, //slider end value,
+        searchTerm: state.mainSearch.term //search term submitted by user
     }
 }
 

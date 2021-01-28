@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from "react-redux";
 
 import NavBar from '../nav/NavBar';
 import SearchBar from './SearchBar';
@@ -7,14 +8,15 @@ import { items } from "./DropDownItems";
 import Slider from './Slider';
 import JobItems from './JobItems';
 
+
 import "../../scss/main.css";
+import upwork from '../../rss/upwork';
 
 const JobList = (props) => {
 
   //search bar event handler
-  const handleSearchSubmit = (term) => {
-    //call API action creator here
-    console.log(term);
+  const handleSearchSubmit = term => {
+      console.log(term);
   }
 
   const hourlySlider = (
@@ -33,8 +35,6 @@ const JobList = (props) => {
           label="Fixed Price" />
       </div>
     );
-
-
 
       
   return (
@@ -118,7 +118,6 @@ const JobList = (props) => {
               <DropDown
                 id="filter"
                 name="filterByLocation"
-                subtype="checkbox"
                 search="none"
                 title="Location"
                 items={items}
@@ -138,4 +137,10 @@ const JobList = (props) => {
   ); 
 } 
 
-export default JobList;
+const mapStateToProps = (state) => {
+  return {
+    searchTerm: state.mainSearch.term
+  }
+}
+
+export default connect (mapStateToProps)(JobList);

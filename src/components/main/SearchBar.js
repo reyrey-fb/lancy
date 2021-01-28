@@ -69,7 +69,7 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     name: name,
-    value: localState.value
+    term: localState.term
   }
 }
 

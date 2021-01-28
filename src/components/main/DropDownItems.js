@@ -2,7 +2,7 @@
 export const items = [
   {
     title: "Most Recent",
-    option: ["Highest Pay"],
+    option: ["Highest Hourly Pay", "Highest Budget"],
   },
   {
     title: "Date Posted",
@@ -117,7 +117,7 @@ export const items = [
     title: "Location",
     option: [
       "United States",
-      "Worldwide"
+      "International"
     ],
   },
 ];

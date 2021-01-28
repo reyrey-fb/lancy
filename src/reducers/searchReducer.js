@@ -1,16 +1,16 @@
 import { SEARCH_SUBMIT } from "../actions/types";
 
 const INITIAL_STATE = {
-    value: ''
+    term: ''
 }
 
 const searchReducer = name => (state=INITIAL_STATE, action) => {
     switch(action.type) {
         case `${name}/${SEARCH_SUBMIT}`:
-            console.log(`search submitted from the ${name}!`);
+            console.log(`search ${action.term.search} submitted from the ${name}!`);
             return {
                 ...state,
-                value: action.value.search
+                term: action.term.search
             }   
     default:
         return state;

@@ -3,7 +3,7 @@ import { MIN_SELECTED, MAX_SELECTED } from "../actions/types";
 const INITIAL_STATE = (name) => {
     if (name ==="hourlySlider"){
       return {
-        name: "",
+       name: "",
         slots: 100,
         step: 5,
         start: 35,
@@ -37,7 +37,7 @@ const sliderReducer = (name) => (state=INITIAL_STATE(name), action ) => {
           end: action.item
         };
       default:
-          return state;
+          return state; 
     }
 }
 
