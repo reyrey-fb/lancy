@@ -18,19 +18,7 @@ class JobItems extends Component {
         useFilterDataFromRSS()) // call business logic function that parses RSS text data
         .then(
         this.props.getFilterData(customJobItemsList) //action creator passes parsed RSS data to redux store
-        ).catch(() => this.props.catchErrors(true));
-
-      new Promise(function(resolve, reject){
-        setTimeout(() => resolve(1), 1000);
-      }).then(function(result) {
-        console.log(result);
-        return result * 2;
-      }).then((result) => {
-        console.log(result);
-        return result * 2;
-      })
-      
-      
+        ).catch(() => this.props.catchErrors(true));      
     }
 
     renderCustomData () { //INDEXING INTO THIS ARRAY RETURNS UNDEFINED, PROBABLY DUE TO ASYNC PROBLEMS

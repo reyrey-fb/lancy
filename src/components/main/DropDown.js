@@ -19,24 +19,31 @@ const DropDown = (props) => {
   }
 
   const handleSearchSubmit = (searchTerm) => {
+    if (!searchTerm) {
+      return;
+    }
+
+    let searchArray;
     if (props.title === "Skills" && searchTerm.length !== 0) {
       const searchSkillsArray = props.items[4].option.filter((option) => {
         if (searchTerm.length !== 0 && (option.toLowerCase().includes(searchTerm.toLowerCase()))) {
-          console.log(`the ${searchTerm} was found at ${option} from skills dropdown list`)
+          console.log(`the search term ${searchTerm} was found at ${option} from skills dropdown list`)
           return option;
         }
       })
-      console.log(searchSkillsArray)
-    }
-    if (props.title === "Category" && searchTerm.length !== 0) {
+      searchArray = searchSkillsArray;
+      console.log(searchSkillsArray);
+    } else if (props.title === "Category" && searchTerm.length !== 0) {
       const searchCategoryArray = props.items[3].option.filter((option) => {
         if (searchTerm.length !== 0 && (option.toLowerCase().includes(searchTerm.toLowerCase()))) {
-          console.log(`the ${searchTerm} was found at ${option} from category dropdown list`)
+          console.log(`the search term ${searchTerm} was found at ${option} from category dropdown list`)
           return option;
         }
       })
-      console.log(searchCategoryArray)
+      searchArray = searchCategoryArray;
+      console.log(searchCategoryArray); 
     }
+    return searchArray;
   }
 
   //***dynamically render dropdown menu items***//
@@ -45,6 +52,9 @@ const DropDown = (props) => {
     //conditional styling for slider and checkbox items
     let subtype = (props.subtype === "slider" || props.subtype === "checkbox") ? "slider" : "";
     let sliderItem = (props.subtype === "slider" || props.subtype === "checkbox") ? "slider-item" : "";
+   
+    const optionsSearchArray = handleSearchSubmit;
+    console.log(optionsSearchArray);
 
     //dynamic rendering of dropdown item options
     const renderOptions = item.option.map((option,i) => {
