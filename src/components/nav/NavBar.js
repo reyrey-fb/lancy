@@ -35,11 +35,11 @@ class NavBar extends Component {
                 </li>               
               </div>
               <li className="nav-item row align-items-end">
-                <Link className="nav-link" to="/account/profile">
+                <div type="button" data-toggle="modal" data-target="signOutModal">
                   <span className=" rounded-circle bg-primary text-white p-2">
-                    {profile.initials}
+                    {profile.initials !== undefined ? profile.initials : "NA"}
                   </span>
-                </Link>
+                </div>
               </li>
             </ul>
           </div>

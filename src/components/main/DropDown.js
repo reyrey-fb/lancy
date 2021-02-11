@@ -19,31 +19,24 @@ const DropDown = (props) => {
   }
 
   const handleSearchSubmit = (searchTerm) => {
-    if (!searchTerm) {
-      return;
-    }
-
-    let searchArray;
-    if (props.title === "Skills" && searchTerm.length !== 0) {
-      const searchSkillsArray = props.items[4].option.filter((option) => {
-        if (searchTerm.length !== 0 && (option.toLowerCase().includes(searchTerm.toLowerCase()))) {
-          console.log(`the search term ${searchTerm} was found at ${option} from skills dropdown list`)
-          return option;
-        }
-      })
-      searchArray = searchSkillsArray;
-      console.log(searchSkillsArray);
-    } else if (props.title === "Category" && searchTerm.length !== 0) {
-      const searchCategoryArray = props.items[3].option.filter((option) => {
-        if (searchTerm.length !== 0 && (option.toLowerCase().includes(searchTerm.toLowerCase()))) {
-          console.log(`the search term ${searchTerm} was found at ${option} from category dropdown list`)
-          return option;
-        }
-      })
-      searchArray = searchCategoryArray;
-      console.log(searchCategoryArray); 
-    }
-    return searchArray;
+      if (props.title === "Skills" && searchTerm !== undefined) {
+        const searchSkillsArray = props.items[4].option.filter((option) => {
+          if (searchTerm.length !== 0 && (option.toLowerCase().includes(searchTerm.toLowerCase()))) {
+            //console.log(`the search term ${searchTerm} was found at ${option} from skills dropdown list`)
+            return option;
+          }
+        })
+        return searchSkillsArray;  
+      } 
+      if (props.title === "Category" && searchTerm !== undefined) {
+        const searchCategoryArray = props.items[3].option.filter((option) => {
+          if (searchTerm.length !== 0 && (option.toLowerCase().includes(searchTerm.toLowerCase()))) {
+            //console.log(`the search term ${searchTerm} was found at ${option} from category dropdown list`)
+            return option;
+          }
+        })
+        return searchCategoryArray;  
+      }   
   }
 
   //***dynamically render dropdown menu items***//
@@ -53,9 +46,21 @@ const DropDown = (props) => {
     let subtype = (props.subtype === "slider" || props.subtype === "checkbox") ? "slider" : "";
     let sliderItem = (props.subtype === "slider" || props.subtype === "checkbox") ? "slider-item" : "";
    
-    const optionsSearchArray = handleSearchSubmit;
-    console.log(optionsSearchArray);
-
+    const categorySearchArray = handleSearchSubmit(props.categorySearchTerm);
+    const skillsSearchArray = handleSearchSubmit(props.skillsSearchTerm);
+    let optionsArray = [];
+    if ( categorySearchArray !== undefined) {
+      if (categorySearchArray.length !== 0) {
+      optionsArray = categorySearchArray;
+    }
+  }
+    if ( skillsSearchArray !== undefined) {
+          if (skillsSearchArray.length !== 0) {
+          optionsArray = skillsSearchArray;
+        }
+      }
+    if (optionsArray.length !== 0) {console.log(optionsArray)};
+  
     //dynamic rendering of dropdown item options
     const renderOptions = item.option.map((option,i) => {
         if (props.subtype === "checkbox") {
@@ -114,10 +119,7 @@ const DropDown = (props) => {
     });
 
     if (item.title === props.title) {
-          let searchName =
-            props.title === "Skills"
-              ? "filterBySkillsSearch"
-              : "filterByCategorySearch";
+
           return (
             <div className="dropdown btn-group border rounded-sm position-relative">
               <button
@@ -134,12 +136,20 @@ const DropDown = (props) => {
                 className={`dropdown-menu ${subtype}`}
                 aria-labelledby="dropdownMenuButton"
               >
-                <div className={`d-${props.search}`}>
-                  <SearchBar 
-                    name={searchName}
-                    onSubmit={searchName === "filterBySkillsSearch" ? handleSearchSubmit(props.skillsSearchTerm) : handleSearchSubmit(props.categorySearchTerm)}
+              {item.title === 'Skills' ? 
+                  <form className={`d-${props.search}`}>
+                  <SearchBar
+                    name = "filterBySkillsSearch" 
+                    onSubmit={ handleSearchSubmit(props.skillsSearchTerm)}
                    />
-                </div>
+                </form> : null}
+              {item.title === 'Category' ? 
+                  <div className={`d-${props.search}`}>
+                  <SearchBar
+                    name = "filterByCategorySearch" 
+                    onSubmit={handleSearchSubmit(props.categorySearchTerm)}
+                   />
+                </div> : null}
                 {renderOptions}
               </ol>
             </div>

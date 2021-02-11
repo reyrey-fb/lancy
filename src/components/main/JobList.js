@@ -7,10 +7,10 @@ import DropDown from './DropDown';
 import { items } from "./DropDownItems";
 import Slider from './Slider';
 import JobItems from './JobItems';
+import SignOutModal from '../auth/SignOutModal'
 
 
 import "../../scss/main.css";
-import upwork from '../../rss/upwork';
 
 const JobList = (props) => {
 
@@ -36,14 +36,15 @@ const JobList = (props) => {
       </div>
     );
 
+
       
   return (
     <div className="container-fluid">
-      <div className="row">
-        <nav className="col-auto p-0">
+      <div className="row" style={{position: 'relative'}}>
+        <nav className="col-auto p-0" style={{position: 'fixed'}}>
           <NavBar />
         </nav>
-        <main role="main" className="col mt-4">
+        <main role="main" className="col mt-4 ml-5 pl-4">
           <div className="row no-gutters d-flex justify-content-around">
             <div className="col-md-9 col-6">
               <SearchBar
@@ -125,8 +126,8 @@ const JobList = (props) => {
             </div>
           </div>
 
-          <div className="row">
-            <div className="col mt-3">
+          <div className="row no-gutters d-flex justify-content-around">
+            <div className="col-auto pr-0 mt-3">
                 <JobItems
                 />
             </div>

@@ -5,14 +5,9 @@ import { Router, Route, Switch } from 'react-router-dom';
 import AuthStatus from './auth/AuthStatus';
 import SignIn from './auth/SignIn';
 import SignUp from './auth/SignUp';
-import Account from './userSettings/Account';
-import Billing from './userSettings/Billing';
-import Profile from './userSettings/Profile';
+import SignOutModal from './auth/SignOutModal';
 import history from '../history';
 import Slider from './main/Slider';
-
-
-
 
 class App extends Component {
     render() {
@@ -23,9 +18,7 @@ class App extends Component {
                 <Route exact path="/" component={AuthStatus} />
                 <Route path="/signin" component={SignIn} />
                 <Route path="/signup" component={SignUp} />
-                <Route exact path="/account" component={Account} />
-                <Route path="/account/billing" component={Billing} />
-                <Route path="/account/profile" component={Profile} />
+                <Route path="/signout" component={SignOutModal} />
                 <Route path="/slider" component={Slider} />
               </Switch>
             </Router>

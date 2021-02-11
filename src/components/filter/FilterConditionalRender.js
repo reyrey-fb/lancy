@@ -16,7 +16,7 @@ class FilterConditionalRender extends Component {
             <div>
             {this.props.filterArray &&
               this.props.filterArray.map((item, i) => (
-                <div key={i}>
+                <div className="job-item border rounded-sm mb-3 p-3" key={i}>
                   <h1>{item.title}</h1>
                   <p>{parse(item.postContent)}</p>
                 </div>

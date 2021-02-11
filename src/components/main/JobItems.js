@@ -47,7 +47,7 @@ class JobItems extends Component {
           <div>
             {this.props.upworkFeed.items &&
               this.props.upworkFeed.items.map((item, i) => (
-                <div key={i}>
+                <div className="job-item border rounded-sm mb-3 p-3" key={i}>
                   <h1>{item.title}</h1>
                   <p>{parse(item.content)}</p>
                 </div>
@@ -229,14 +229,14 @@ class JobItems extends Component {
     render() {
         //show loading and catch errors
         if (this.props.upworkFeed.length === 0 && this.props.error === false) {
-          return <div>Loading...</div>
+          return <div className="container-fluid job-item">Loading...</div>
         }
         if (this.props.error === true) {
-          return <div>There was an error fetching your jobs data.</div>
+          return <div className="container-fluid job-item">There was an error fetching your jobs data.</div>
         }
 
         return (
-          <div>
+          <div className="container-fluid">
             {this.renderSelectedFilter(this.props.filterItem, this.props.sliderStart, this.props.sliderEnd, this.props.searchTerm)}
           </div>
         );

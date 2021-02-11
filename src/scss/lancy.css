@@ -117,6 +117,11 @@ div .search-filter-icon::after {
   color:  #1E5EFF;
 }
 
+.job-item {
+  color:  #717598;
+  font-size: 0.875rem; 
+}
+
 
 
 
