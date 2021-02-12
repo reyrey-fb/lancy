@@ -6,8 +6,6 @@ import "../../scss/main.css";
 import "../../scss/lancy.css";
 import { selectDropdownItem } from "../../actions/dropdownActions";
 
-
-
 const DropDown = (props) => {
   const {items} = props;
 

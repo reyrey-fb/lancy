@@ -24,6 +24,7 @@ class SignUp extends Component {
             {...input}
             className="form-control mb-2"
             placeholder={label}
+            type={input.name}
             autoComplete="off"
             required
           />
@@ -76,7 +77,7 @@ class SignUp extends Component {
                 component={this.renderInput}
                 label="Password"
               />
-              <button className="btn btn-lg btn-primary btn-block mb-4">
+              <button className="btn btn-lg btn-primary btn-block mb-4 text-white">
                 Sign Up
               </button>
 

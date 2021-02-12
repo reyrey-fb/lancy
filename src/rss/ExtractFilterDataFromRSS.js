@@ -3,8 +3,6 @@ import { upworkRSS } from "../rss/upwork";
 /** global job list variable with extracted item data **/
 export let customJobItemsList = [];
 
-//use RSS provided isoDate data point for date
-
 //Business Logic Behind Extracting Filter Data from the RSS Feed Text
     const useFilterDataFromRSS = async () => {
         
@@ -94,7 +92,7 @@ export let customJobItemsList = [];
             filterLabelsArray: filterLabelsArray[i]} //filter labels [0: {label: description}, 1: {label:description}] -- indexes are linked to the filter labels
           )
         })
-        //console.log(customJobItemsList);
+        console.log(customJobItemsList);
        
         /**** assigning and cleaning variables for reading in filters ****/
         let hourlyRangeMap = new Map()
@@ -146,12 +144,6 @@ export let customJobItemsList = [];
             }
           }
         }
-
-        //console.log(hourlyRangeMap);
-        //console.log(fixedPriceMap);
-        //console.log(skillsMap);
-        //console.log(locationMap);
-        //console.log(categoryMap);
 
         //combining all parsed Map filter values under one cohesive jobs list
         for ( let i = 0; i < customJobItemsList.length; i++) {
@@ -216,7 +208,6 @@ export let customJobItemsList = [];
     return customJobItemsList; 
     //iterable list of job items, .map ((item, i) => item.filterName.subFilter))
     //item.hourlyRange.lowPrice, item.fixedPrice.price, item.skills, item.category, item.location, item.datePosted)
-
     }
 
     export default useFilterDataFromRSS;

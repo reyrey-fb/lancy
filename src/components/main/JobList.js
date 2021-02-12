@@ -7,17 +7,10 @@ import DropDown from './DropDown';
 import { items } from "./DropDownItems";
 import Slider from './Slider';
 import JobItems from './JobItems';
-import SignOutModal from '../auth/SignOutModal'
-
 
 import "../../scss/main.css";
 
 const JobList = (props) => {
-
-  //search bar event handler
-  const handleSearchSubmit = term => {
-      console.log(term);
-  }
 
   const hourlySlider = (
     <div className="">
@@ -36,13 +29,12 @@ const JobList = (props) => {
       </div>
     );
 
-
-      
   return (
     <div className="container-fluid">
       <div className="row" style={{position: 'relative'}}>
         <nav className="col-auto p-0" style={{position: 'fixed'}}>
-          <NavBar />
+          <NavBar 
+          />
         </nav>
         <main role="main" className="col mt-4 ml-5 pl-4">
           <div className="row no-gutters d-flex justify-content-around">
@@ -50,7 +42,6 @@ const JobList = (props) => {
               <SearchBar
                 id="search"
                 name="mainSearch"
-                onSubmit={handleSearchSubmit(props.searchTerm)}
               />
             </div>
             <div className="col-md-3 col-6">

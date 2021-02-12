@@ -69,7 +69,7 @@ class SignIn extends Component {
                 component={this.renderInput}
                 label="Password"
               />
-              <button className="btn btn-lg btn-primary btn-block mb-4">
+              <button className="btn text-white btn-lg btn-primary btn-block mb-4">
                 Log In
               </button>
 

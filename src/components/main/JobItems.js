@@ -6,35 +6,19 @@ import { fetchUpworkRSSFeed } from "../../actions/feedActions";
 import { catchErrors } from "../../actions/errorActions";
 import { getFilterData } from "../../actions/filterDataActions";
 import useFilterDataFromRSS from "../../rss/ExtractFilterDataFromRSS";
-import { customJobItemsList } from "../../rss/ExtractFilterDataFromRSS";
 import FilterConditionalRender from "../filter/FilterConditionalRender";
 
 class JobItems extends Component {
 
     componentDidMount() {
       //fetch, parse and catch jobs data
-      const dataFromRSS = this.props.fetchUpworkRSSFeed();
-      dataFromRSS.then( 
-        useFilterDataFromRSS()) // call business logic function that parses RSS text data
-        .then(
-        this.props.getFilterData(customJobItemsList) //action creator passes parsed RSS data to redux store
-        ).catch(() => this.props.catchErrors(true));      
-    }
-
-    renderCustomData () { //INDEXING INTO THIS ARRAY RETURNS UNDEFINED, PROBABLY DUE TO ASYNC PROBLEMS
-          return (
-            <React.Fragment>
-            {this.props.customUpworkFeed && this.props.customUpworkFeed.map((item, i) => (
-              <div key = {i}>
-                <p>I AM IN A LOOP</p>
-                <p>{item.hourlyRange.lowPrice}</p>
-                <p>{item.category}</p>
-                <p>{item.skills}</p>
-              </div>
-            ))}
-            </React.Fragment>
-          )
-        }
+      const dataFromRSS = this.props.fetchUpworkRSSFeed(); //call action creator to load RSS
+      dataFromRSS.then(() => {
+        return useFilterDataFromRSS(); // call business logic function that parses RSS text data
+      }).then ((response) => {
+        this.props.getFilterData(response) //action creator passes parsed RSS data to redux store
+      }).catch(() => this.props.catchErrors(true));
+      }
 
     renderSelectedFilter (item, sliderStart, sliderEnd, searchTerm) {
       console.log(`filter item value is ${item}`);
@@ -55,7 +39,7 @@ class JobItems extends Component {
               </div>
         )
       } 
-  
+
 //***DROPDOWN FILTER AND SEARCH TERM MATCH LOGIC - RETURN CONDITIONAL JOB LISTS BASED ON USER INPUT***//
       let filterArray;
       //search term array
@@ -227,6 +211,7 @@ class JobItems extends Component {
     }
 
     render() {
+
         //show loading and catch errors
         if (this.props.upworkFeed.length === 0 && this.props.error === false) {
           return <div className="container-fluid job-item">Loading...</div>
@@ -240,6 +225,7 @@ class JobItems extends Component {
             {this.renderSelectedFilter(this.props.filterItem, this.props.sliderStart, this.props.sliderEnd, this.props.searchTerm)}
           </div>
         );
+
     }
 }
 

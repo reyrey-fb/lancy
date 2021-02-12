@@ -16,8 +16,8 @@ export const signIn = (credentials) => {
       )
       .then(() => {
         dispatch({ type: LOGIN_SUCCESS });
-        //navigate programmatically back to Sign In screen
-        history.push("/");
+        //navigate programmatically to home screen
+        //history.push("/");
       })
       //if error thrown, dispatches error action
       .catch((err) => {
@@ -38,8 +38,6 @@ export const signOut = () => {
     //call returns a promise, which if successful, dispatches success action
       .then(() => {
         dispatch({ type: SIGNOUT_SUCCESS });
-        //navigate programmatically back to Sign In screen
-        history.push("/signin");
       });
   }
 };

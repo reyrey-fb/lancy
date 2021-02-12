@@ -35,7 +35,7 @@ div .search-filter-icon::after {
 }
 
 .btn {
-  color: #A1A7C4; 
+  color: #aab0cc; 
 }
 
 .btn:focus, .btn.focus {
@@ -121,6 +121,10 @@ div .search-filter-icon::after {
   color:  #717598;
   font-size: 0.875rem; 
 }
+
+
+
+
 
 
 

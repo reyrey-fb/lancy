@@ -1,16 +1,23 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
-import "../../scss/main.css";
 
+import "../../scss/main.css";
+import LogOutModal from "../main/Modal";
 
 class NavBar extends Component {
+    state = { modalOpen: false}
+
+    toggleSignOut = () => {
+      this.setState({modalOpen: !this.state.modalOpen})
+    }
     
     render () {
         const { profile } = this.props;
-        console.log(profile);
+        
         return (
-          <div className="sidebar-sticky">
+          <div>
+          <nav className="sidebar-sticky">
             <ul className="navbar flex-column bg-light min-vh-100 d-inline-flex mb-0">
               <li className="nav-item row align-items-start">
                 <Link className="nav-link" to="/">
@@ -34,15 +41,22 @@ class NavBar extends Component {
                   </Link>
                 </li>               
               </div>
-              <li className="nav-item row align-items-end">
-                <div type="button" data-toggle="modal" data-target="signOutModal">
-                  <span className=" rounded-circle bg-primary text-white p-2">
-                    {profile.initials !== undefined ? profile.initials : "NA"}
+              <li className="nav-item row align-items-end mb-2">
+                <div type="button" onClick={this.toggleSignOut}>
+                  <span className=" rounded-circle bg-primary text-white p-2" >
+                    {profile.initials!== undefined ? profile.initials.toUpperCase() : "NA"}
                   </span>
                 </div>
               </li>
             </ul>
-          </div>
+        </nav>
+          <LogOutModal
+          show={this.state.modalOpen}
+          title= "Sign Out"
+          content= "Are you sure you want to sign out?"
+          toggleModal={this.toggleSignOut}/>
+      </div>
+
         );
     }
 }
