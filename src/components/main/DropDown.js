@@ -64,7 +64,7 @@ const DropDown = (props) => {
         if (props.subtype === "checkbox") {
           return (
             <li
-              key={i}
+              key={`${option}-${i}`}
               onClick={() => onClick(option)}
               className={`dropdown-item ${sliderItem}`}
             >
@@ -87,7 +87,7 @@ const DropDown = (props) => {
             return (
               <React.Fragment>
                 <li
-                  key={i}
+                  key="slider-1"
                   onClick={() => onClick(option)}
                   className={`dropdown-item ${sliderItem}`}
                 >
@@ -95,7 +95,7 @@ const DropDown = (props) => {
                 </li>
 
                 <li
-                  key={i}
+                  key="slider-2"
                   onClick={() => onClick(option)}
                   className={`dropdown-item ${sliderItem}`}
                 >
@@ -106,7 +106,7 @@ const DropDown = (props) => {
         } else {
             return (
               <li
-                key={i}
+                key={`${option}-${i}`}
                 onClick={() => onClick(option)}
                 className={`dropdown-item ${sliderItem}`}
               >
@@ -135,19 +135,17 @@ const DropDown = (props) => {
                 aria-labelledby="dropdownMenuButton"
               >
               {item.title === 'Skills' ? 
-                  <form className={`d-${props.search}`}>
                   <SearchBar
                     name = "filterBySkillsSearch" 
                     onSubmit={ handleSearchSubmit(props.skillsSearchTerm)}
                    />
-                </form> : null}
+                : null}
               {item.title === 'Category' ? 
-                  <div className={`d-${props.search}`}>
                   <SearchBar
                     name = "filterByCategorySearch" 
                     onSubmit={handleSearchSubmit(props.categorySearchTerm)}
                    />
-                </div> : null}
+                : null}
                 {renderOptions}
               </ol>
             </div>
